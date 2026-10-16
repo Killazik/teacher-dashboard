@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кабинет учителя</title>
+
+  <!-- Подключаем внешний CSS-файл. Все стили — в frontend/css/style.css -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- ==========================================================
+       Фиолетовая плашка-заголовок макета.
+       Если в финале решишь, что она не нужна — просто удали <header>.
+       ========================================================== -->
+  <header class="top-banner">Интерфейс с заполненными данными</header>
+
+  <!-- ==========================================================
+       Основная карточка приложения: сайдбар слева + контент справа.
+       ========================================================== -->
+  <div class="app">
+
+    <!-- ---------- САЙДБАР: список учеников класса ---------- -->
+    <aside class="sidebar">
+      <h2>Список учеников</h2>
+
+      <!-- Пустой <ul>. JS (js/main.js) заполнит его <li> по данным с бэка. -->
+      <ul class="student-list" id="studentList"></ul>
+    </aside>
+
+    <!-- ---------- КОНТЕНТ: имя, прогресс-бары, таблица ---------- -->
+    <main class="content">
+
+      <!-- Имя выбранного ученика. JS подставит сюда full_name. -->
+      <h1 class="student-name" id="studentName">—</h1>
+
+      <!-- Два прогресс-бара в пунктирных рамках -->
+      <div class="stats-row">
+
+        <!-- Блок 1: "X/Y" — сколько тестов пройдено из выданных -->
+        <div class="stat-box">
+          <div class="stat-value" id="testsCompleted">0/0</div>
+          <div class="progress-bar">
+            <!-- width задаётся из JS. Пока 0% -->
+            <div class="progress-fill" id="testsProgressFill" style="width: 0%"></div>
+          </div>
+          <div class="stat-label">Тестов выполнено</div>
+        </div>
+
+        <!-- Блок 2: "18,2%" — средняя активность по тестам -->
+        <div class="stat-box">
+          <div class="stat-value" id="accuracyAvg">0%</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="accuracyProgressFill" style="width: 0%"></div>
+          </div>
+          <div class="stat-label">Средняя активность<br>по тестам</div>
+        </div>
+
+      </div>
+
+      <!-- ---------- ТАБЛИЦА ТЕСТОВ ---------- -->
+      <table class="tests-table">
+        <thead>
+          <tr>
+            <th class="col-num">№</th>
+            <th>Название теста</th>
+            <th>Задачи</th>
+            <th>Прогресс прохождения теста, %</th>
+            <th>Выполнено верно, %</th>
+            <th>Время выполнения</th>
+            <th>Дата выдачи</th>
+          </tr>
+        </thead>
+
+        <!-- Тело таблицы пустое. JS заполнит строками по каждому тесту. -->
+        <tbody id="testsTableBody"></tbody>
+      </table>
+
+    </main>
+  </div>
+
+  <!-- ==========================================================
+       Подключаем JavaScript-модули в правильном порядке:
+
+       api.js    — функции запросов к бэкенду (fetch + моки)
+       render.js — функции отрисовки HTML из данных
+       main.js   — точка входа, связывает api и render
+
+       main.js идёт последним, потому что использует функции
+       из api.js и render.js — они должны быть уже загружены.
+       ========================================================== -->
+  <script src="js/api.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
