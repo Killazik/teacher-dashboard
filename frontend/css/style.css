@@ -41,15 +41,16 @@ body {
   border-radius: 12px;
   padding: 24px;
   display: flex;
-  gap: 24px;
+  gap: 20px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 /* ============================================================
    САЙДБАР
+   Ширина 210px — имена учеников влезают в одну строку
    ============================================================ */
 .sidebar {
-  width: 220px;
+  width: 210px;
   flex-shrink: 0;
   background: #fafafa;
   border-radius: 8px;
@@ -71,7 +72,7 @@ body {
 .student-list li {
   counter-increment: student;
   padding: 6px 8px;
-  font-size: 13px;
+  font-size: 12px;           /* было 13px → 12px, чтобы длинные ФИО влезали */
   color: #333;
   border-radius: 4px;
   cursor: pointer;
@@ -98,6 +99,7 @@ body {
 .content {
   flex: 1;
   min-width: 0;
+  overflow: hidden;          /* не даём таблице вылезать за карточку */
 }
 
 .student-name {
@@ -153,24 +155,29 @@ body {
 
 /* ============================================================
    ТАБЛИЦА
+   table-layout: fixed + заданные проценты = колонки
+   строго соблюдают ширину, ничего не вылезает.
    ============================================================ */
 .tests-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12px;
+  table-layout: fixed;
 }
 
 .tests-table thead th {
   text-align: left;
   font-weight: 600;
   color: #555;
-  padding: 10px 8px;
+  padding: 8px 6px;
   border-bottom: 1px solid #e0e0e0;
-  white-space: nowrap;
+  line-height: 1.25;
+  vertical-align: bottom;
+  /* без word-wrap и nowrap — перенос только по пробелам */
 }
 
 .tests-table tbody td {
-  padding: 14px 8px;
+  padding: 12px 6px;
   border-bottom: 1px dashed #e0e0e0;
   vertical-align: middle;
   color: #222;
@@ -178,27 +185,40 @@ body {
 
 .col-num {
   color: #888;
-  width: 30px;
+  width: 5%;
 }
 
 /* ============================================================
+   ШИРИНЫ КОЛОНОК ТАБЛИЦЫ
+   Сумма = 100%.
+   ============================================================ */
+.tests-table th:nth-child(1) { width: 5%;  }  /* № */
+.tests-table th:nth-child(2) { width: 24%; }  /* Название теста */
+.tests-table th:nth-child(3) { width: 21%; }  /* Задачи */
+.tests-table th:nth-child(4) { width: 15%; }  /* Прогресс */
+.tests-table th:nth-child(5) { width: 13%; }  /* Выполнено верно */
+.tests-table th:nth-child(6) { width: 11%; }  /* Время */
+.tests-table th:nth-child(7) { width: 11%; }  /* Дата */
+
+/* ============================================================
    КВАДРАТИКИ ЗАДАЧ
+   13 × 9px + 12 × 1px = 129px — влезает в колонку «Задачи»
    ============================================================ */
 .tasks-grid {
   display: grid;
-  grid-template-columns: repeat(13, 10px);
-  gap: 2px;
+  grid-template-columns: repeat(13, 9px);
+  gap: 1px;
 }
 
 .task-dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 2px;
 }
 
-.task-dot.correct   { background: #4caf50; }
-.task-dot.incorrect { background: #e53935; }
-.task-dot.skipped   { background: #bdbdbd; }
+.task-dot.correct   { background: #4caf50; }  /* зелёный — TRUE */
+.task-dot.incorrect { background: #e53935; }  /* красный — FALSE */
+.task-dot.skipped   { background: #bdbdbd; }  /* серый   — "?" */
 
 .percent-cell {
   white-space: nowrap;
